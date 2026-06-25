@@ -14,8 +14,7 @@ ENV PYTHONUNBUFFERED=1
 
 RUN mkdir -p /app/instance
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN printf '#!/bin/sh\nset -e\npython seed.py\nexec gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 run:app\n' > /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 5000
 
