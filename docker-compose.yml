@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - FLASK_ENV=production
+      - JWT_SECRET_KEY=sua_chave_secreta_aqui_coolify
+    volumes:
+      - sqlite_data:/app/instance
+    networks:
+      - intranet-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - intranet-net
+
+networks:
+  intranet-net:
+    driver: bridge
+
+volumes:
+  sqlite_data:
