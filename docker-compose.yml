@@ -15,7 +15,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.frontend
     restart: always
     ports:
       - "1247:1247"
