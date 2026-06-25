@@ -9,26 +9,19 @@ services:
     environment:
       - FLASK_ENV=production
       - JWT_SECRET_KEY=61df3d4880dabb76e3fa7db84351935e1dad6000edad1df20c3a064f3cda8e7d
+
     volumes:
       - sqlite_data:/app/instance
-    networks:
-      - intranet-net
 
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
-    expose:
-      - "80"
+    ports:
+      - "1247:1247"
     depends_on:
       - backend
-    networks:
-      - intranet-net
-
-networks:
-  intranet-net:
-    driver: bridge
 
 volumes:
   sqlite_data:
