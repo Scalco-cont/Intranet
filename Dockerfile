@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+RUN chmod -R 755 node_modules/.bin
 RUN npm run build
 
 # Stage 2: Nginx
