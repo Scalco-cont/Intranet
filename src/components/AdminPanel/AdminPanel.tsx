@@ -11,8 +11,6 @@ import {
 type Tab = 'sistemas' | 'links' | 'usuarios';
 
 interface AdminPanelProps {
-  sistemas: Sistema[];
-  links: LinkUtil[];
   onClose: () => void;
   onRefresh: () => void;
 }
@@ -20,8 +18,8 @@ interface AdminPanelProps {
 const EMPTY_SISTEMA = { nome: '', descricao: '', icone: 'AppWindow', url: '' };
 const EMPTY_LINK = { nome: '', descricao: '', icone: 'Link', url: '' };
 
-export function AdminPanel({ sistemas, links, onClose, onRefresh }: AdminPanelProps) {
-  const { token, admin, logout } = useAuthStore();
+export function AdminPanel({ onClose, onRefresh }: AdminPanelProps) {
+  const { token, usuario, logout } = useAuthStore();
   const [activeTab, setActiveTab] = useState<Tab>('sistemas');
   const [items, setItems] = useState<any[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -123,7 +121,7 @@ export function AdminPanel({ sistemas, links, onClose, onRefresh }: AdminPanelPr
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50">
           <div>
             <h2 className="text-lg font-bold text-gray-900">Painel de Administração</h2>
-            <p className="text-xs text-gray-500">Bem-vindo, {admin?.nome}</p>
+            <p className="text-xs text-gray-500">Bem-vindo, {usuario?.nome}</p>
           </div>
           <div className="flex items-center gap-2">
             <button

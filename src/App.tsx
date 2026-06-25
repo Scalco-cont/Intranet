@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-      <Header sistemas={sistemas} links={links} onRefresh={refetch} />
+      <Header onRefresh={refetch} />
       <main className="flex-grow">
         <Dashboard
           sistemas={sistemas}

@@ -1,17 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
-import { Bell, User, ShieldCheck, LogOut, Settings, Pencil } from 'lucide-react';
+import { User, ShieldCheck, LogOut, Settings, Pencil } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { LoginModal } from '../LoginModal/LoginModal';
 import { AdminPanel } from '../AdminPanel/AdminPanel';
-import { type Sistema, type LinkUtil } from '../../services/api';
+
 
 interface HeaderProps {
-  sistemas: Sistema[];
-  links: LinkUtil[];
   onRefresh: () => void;
 }
 
-export function Header({ sistemas, links, onRefresh }: HeaderProps) {
+export function Header({ onRefresh }: HeaderProps) {
   const { isAuthenticated, isAdmin, isEditor, usuario, logout } = useAuthStore();
   const [showLogin, setShowLogin] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
@@ -138,8 +136,6 @@ export function Header({ sistemas, links, onRefresh }: HeaderProps) {
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
       {showAdmin && isAdmin && (
         <AdminPanel
-          sistemas={sistemas}
-          links={links}
           onClose={() => setShowAdmin(false)}
           onRefresh={onRefresh}
         />
