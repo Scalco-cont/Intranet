@@ -1,19 +1,22 @@
-# Stage 1: Build React
-FROM node:20-alpine AS builder
+FROM python:3.11-slim
 
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
+
+RUN apt-get update && apt-get install -y --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
-RUN chmod -R 755 node_modules/.bin
-RUN npm run build
 
-# Stage 2: Nginx
-FROM nginx:alpine
+ENV FLASK_APP=run.py
+ENV PYTHONUNBUFFERED=1
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+RUN mkdir -p /app/instance
 
-EXPOSE 1247
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 5000
+
+CMD ["/entrypoint.sh"]
