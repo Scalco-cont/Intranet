@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   backend:
     build:
@@ -6,8 +8,8 @@ services:
     restart: always
     environment:
       - FLASK_ENV=production
-      - JWT_SECRET_KEY=SUA_CHAVE_AQUI
-      - SECRET_KEY=SUA_SECRET_KEY
+      - JWT_SECRET_KEY=61df3d4880dabb76e3fa7db84351935e1dad6000edad1df20c3a064f3cda8e7d
+      - SECRET_KEY=61df3d4880dabb76e3fa7db84359012309jd09jd210783090c3a064f3cda8e7d
       - DATABASE_URL=sqlite:///intranet.db
     volumes:
       - sqlite_data:/app/instance
@@ -19,8 +21,14 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     restart: always
-    # SEM ports: aqui — o Coolify injeta via proxy
     depends_on:
       - backend
     networks:
       - intranet-net
+
+networks:
+  intranet-net:
+    driver: bridge
+
+volumes:
+  sqlite_data:
