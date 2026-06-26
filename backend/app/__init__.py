@@ -51,18 +51,7 @@ def create_app(config_class=Config):
     app.register_blueprint(links_bp)
     app.register_blueprint(comunicados_bp)
 
-    @app.route('/api/util/check-url', methods=['GET'])
-    def check_url():
-        url = request.args.get('url')
-        if not url:
-            return jsonify({'isUp': False}), 400
-        try:
-            res = requests.head(url, timeout=3, allow_redirects=True, verify=False)
-            if res.status_code < 400:
-                return jsonify({'isUp': True})
-            return jsonify({'isUp': False})
-        except:
-            return jsonify({'isUp': False})
+
 
     with app.app_context():
         from app.models import Administrador, Sistema, LinkUtil, Log  # noqa

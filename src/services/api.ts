@@ -204,5 +204,11 @@ export const updateUsuario = (id: number, data: Partial<{ nome: string; email: s
     body: JSON.stringify(data),
   });
 
-export const checkUrl = (url: string): Promise<{ isUp: boolean }> =>
-  fetchJson<{ isUp: boolean }>(`/util/check-url?url=${encodeURIComponent(url)}`);
+export const checkUrl = async (url: string): Promise<{ isUp: boolean }> => {
+  try {
+    await fetch(url, { mode: 'no-cors', cache: 'no-store' });
+    return { isUp: true };
+  } catch (error) {
+    return { isUp: false };
+  }
+};
